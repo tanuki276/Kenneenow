@@ -47,7 +47,11 @@
       <section class="viewer-panel" aria-label="3Dモデルビューアー">
         <div class="viewer-atmosphere"></div><div class="radiant-ring"></div><div class="radiant-ring ring-two"></div>
         <div class="viewer-header"><div><span class="viewer-indicator"></span> INTERACTIVE MODEL <span class="viewer-caption">/ CHARACTER DISPLAY</span></div><span class="viewer-code">FIG. <span id="figure-number">001</span></span></div>
-        <canvas id="scene" aria-label="キャラクター3Dモデル。ドラッグで回転、スクロールで拡大縮小"></canvas>
+        <div class="quality-panel" aria-label="3D表示画質設定">
+  <label>モデル精度 <select id="model-quality"><option value="standard">標準 · 約8万tri</option><option value="studio">高精細 · 約238万tri</option></select></label>
+  <label>描画品質 <select id="render-quality"><option value="balanced">標準</option><option value="high">高画質</option><option value="ultra">最高画質</option></select></label>
+  <span id="quality-status" role="status" aria-live="polite">モデルを準備しています</span></div>
+  <canvas id="scene" aria-label="キャラクター3Dモデル。ドラッグで回転、スクロールで拡大縮小"></canvas>
         <div class="loading-overlay" id="loading"><div class="loading-glyph">✧</div><span id="loading-text">星の記録を読み込み中...</span><span class="loader-bar"><i></i></span></div>
         <div class="orbit-text orbit-top">CELESTIAL STUDY / 001</div>
         <div class="viewer-bottom">
