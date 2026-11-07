@@ -1,0 +1,21 @@
+{
+  "characters": [
+    {
+      "id": "lyra",
+      "name": "LYRA",
+      "nameJa": "リラ",
+      "title": "星詠みの魔導士",
+      "subtitle": "THE ASTRAL WEAVER",
+      "quote": "星が囁く夜に、まだ知らない物語が始まる。",
+      "description": "夜空と古代の星図を愛する、旅する魔導士。群青の長髪、金色の刺繍、煌めく星晶石をまとうオリジナルキャラクター。",
+      "element": "星晶 / ASTRAL",
+      "region": "星渡りの書庫",
+      "rarity": 5,
+      "model": "/models/lyra.glb",
+      "theme": "#9fbbff",
+      "accent": "#84d9ef",
+      "tag": "ORIGINAL · 001",
+      "fileName": "lyra-astral-weaver.glb"
+    }
+  ]
+}
