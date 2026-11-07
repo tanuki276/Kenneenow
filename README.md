@@ -48,3 +48,11 @@ Node.js 20以上を用意し、`npm run build` を実行してください。追
 Three.js はブラウザ側で jsDelivr CDN を読み込みます。GLBの自動生成と配信は自分のプロジェクト内で完結します。
 
 > 本作品は非公式のオリジナル作品で、特定のゲーム運営会社とは関係ありません。
+
+## 2026-11 high detail upgrade
+- `/models/lyra-v2.glb` — mobile viewing (81,846 triangles, ~1.7 MiB)
+- `/models/lyra-studio.glb` — high-detail downloadable GLB (2,385,408 triangles, ~41.6 MiB)
+- Taller 6-head-anime silhouette, sharper facial proportions, additional hair strands and embroidered costume ornaments.
+- The gallery uses the compact preview while offering a separate studio-quality download.
+- The source generator stays in `scripts/generate.mjs`. Build runs the enhancement recipe stored as gzip-base64 in `scripts/lyra-enhancer.gz.b64`. Multiple characters can still be registered via `characters.json`.
+- A literal hundred-million-triangle GLB is not suitable for mobile browser deployment; this is a performance-conscious visual upgrade.

@@ -7,23 +7,29 @@ const canvas=$('scene');
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,preserveDrawingBuffer:true});
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.6;
+renderer.toneMappingExposure=1.22;
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(35,1,.1,100);
 camera.position.set(0,1.5,6.0);
 const controls=new OrbitControls(camera,canvas);
 controls.enableDamping=true;controls.dampingFactor=.065;controls.minDistance=2.7;controls.maxDistance=9;controls.minPolarAngle=.33;controls.maxPolarAngle=Math.PI-.12;
 controls.target.set(0,1.42,0);controls.update();
-scene.add(new THREE.HemisphereLight(0xdfeeff,0x4c4c76,3.5));
-const key=new THREE.DirectionalLight(0xffe2bb,4.0);key.position.set(3,6,5);scene.add(key);
-const fill=new THREE.DirectionalLight(0x8fb9f8,3.0);fill.position.set(-4,4,-2);scene.add(fill);
-const rim=new THREE.DirectionalLight(0xbba9f7,3.0);rim.position.set(1,2,-4);scene.add(rim);
+scene.add(new THREE.HemisphereLight(0xdfeeff,0x4c4c76,2.2));
+const key=new THREE.DirectionalLight(0xffe2bb,3.1);key.position.set(3,6,5);scene.add(key);
+const fill=new THREE.DirectionalLight(0x8fb9f8,1.8);fill.position.set(-4,4,-2);scene.add(fill);
+const rim=new THREE.DirectionalLight(0xbba9f7,2.2);rim.position.set(1,2,-4);scene.add(rim);
 const ground=new THREE.Mesh(new THREE.CircleGeometry(1.6,90),new THREE.MeshBasicMaterial({color:0x7291bf,transparent:true,opacity:.065,depthWrite:false}));ground.rotation.x=-Math.PI/2;ground.position.y=-.035;scene.add(ground);
 const ring=new THREE.Mesh(new THREE.TorusGeometry(1.15,.007,8,110),new THREE.MeshBasicMaterial({color:0xd8bf8c,transparent:true,opacity:.38}));ring.rotation.x=Math.PI/2;ring.position.y=.015;scene.add(ring);
 for(let i=0;i<4;i++){let a=Math.PI*i/2;const mark=new THREE.Mesh(new THREE.SphereGeometry(.019,8,6),new THREE.MeshBasicMaterial({color:0xffdfad}));mark.position.set(1.15*Math.cos(a),.02,1.15*Math.sin(a));scene.add(mark);}
 const gltfLoader=new GLTFLoader();let currentRoot=null, active=null, latestUrl=null, objectURL=null, catalog=[], loadingToken=0;
 let activeAutoRotate=false;
 const loading=$('loading');
+const studioLink=document.createElement('a');
+studioLink.id='studio-download';
+studioLink.textContent='✧ 高精細 GLB (約238万三角形) · 42 MB を保存';
+studioLink.style.cssText='display:block;margin-top:12px;padding:14px 16px;border:1px solid rgba(218,181,117,.38);border-radius:10px;color:#ebd2a0;font-size:12px;letter-spacing:.04em;text-decoration:none;background:rgba(220,184,130,.06);';
+$('download-link').insertAdjacentElement('afterend',studioLink);
+
 function setLoading(on,message='星の記録を読み込み中...'){loading.classList.toggle('loaded',!on);$('loading-text').textContent=message;}
 const pad=n=>String(n).padStart(3,'0');
 function renderList(filter=''){
@@ -45,6 +51,9 @@ function setInfo(c,i){$('character-name').innerHTML=escapeHTML(c.name)+'<span cl
   $('record-number').textContent='NO. '+pad(i+1);$('figure-number').textContent=pad(i+1);
   $('rarity').textContent='✦ '.repeat(c.rarity||5).trim();
   $('download-link').setAttribute('href',c.model);$('download-link').setAttribute('download',c.fileName||`${c.id}.glb`);
+  studioLink.hidden=!c.highResModel;studioLink.style.display=c.highResModel?'block':'none';
+  if(c.highResModel){studioLink.href=c.highResModel;studioLink.download=c.highResFileName||`${c.id}-studio.glb`;}
+
   $('counter').textContent=`${String(i+1).padStart(2,'0')} / ${String(catalog.length).padStart(2,'0')}`;
   $('collection-count').textContent=String(catalog.length).padStart(2,'0');document.title=`${c.name} — ASTRAL ARCHIVE`;
 }

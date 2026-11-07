@@ -7,15 +7,17 @@
       "title": "星詠みの魔導士",
       "subtitle": "THE ASTRAL WEAVER",
       "quote": "星が囁く夜に、まだ知らない物語が始まる。",
-      "description": "夜空と古代の星図を愛する、旅する魔導士。群青の長髪、金色の刺繍、煌めく星晶石をまとうオリジナルキャラクター。",
+      "description": "頭身を調整し、髪束・刺繍・金属装飾を精密化したファンタジーアニメ調3Dモデル。閲覧用約8万三角形・高精細版約238万三角形。",
       "element": "星晶 / ASTRAL",
       "region": "星渡りの書庫",
       "rarity": 5,
-      "model": "/models/lyra.glb",
+      "model": "/models/lyra-v2.glb",
       "theme": "#9fbbff",
       "accent": "#84d9ef",
       "tag": "ORIGINAL · 001",
-      "fileName": "lyra-astral-weaver.glb"
+      "fileName": "lyra-astral-weaver.glb",
+      "highResModel": "/models/lyra-studio.glb",
+      "highResFileName": "lyra-studio-2385408tri.glb"
     }
   ]
 }
