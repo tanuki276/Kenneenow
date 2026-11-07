@@ -1,0 +1,52 @@
+name: Build Android APK
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install offline renderer dependencies
+        run: npm install --no-save --no-package-lock --no-audit --no-fund three@0.170.0 esbuild@0.24.2
+      - name: Build site and GLB assets
+        run: npm run build
+      - name: Package offline Android assets
+        run: node scripts/prepare-android.mjs
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Ensure Android SDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Build debug APK
+        run: gradle -p android --no-daemon :app:assembleDebug
+      - name: Collect APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk kenneenow-android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kenneenow-android-apk
+          path: kenneenow-android.apk
+          if-no-files-found: error
+          retention-days: 90
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          tag="android-v1.3.${GITHUB_RUN_NUMBER}"
+          gh release create "$tag" kenneenow-android.apk --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Astral Archive Android $tag" --notes "Offline GLB viewer with studio model (~2.38M triangles) and adaptive render quality. Debug signed for sideload installation."

@@ -1,0 +1,14 @@
+import {cpSync,mkdirSync,readFileSync,rmSync,writeFileSync,statSync} from 'node:fs';
+import path from 'node:path';
+import {build} from 'esbuild';
+const dest='android/app/src/main/assets';
+rmSync(dest,{recursive:true,force:true});mkdirSync(dest,{recursive:true});
+for(const f of ['styles.css','characters.json','favicon.svg'])cpSync(path.join('dist',f),path.join(dest,f));
+cpSync('dist/models',path.join(dest,'models'),{recursive:true});
+let html=readFileSync('dist/index.html','utf8');
+html=html.replace(/<script\s+type="importmap">[\s\S]*?<\/script>/g,'').replace(/<link\s+rel="preconnect"[^>]*>/g,'');
+writeFileSync(path.join(dest,'index.html'),html);
+await build({entryPoints:['app.js'],bundle:true,format:'esm',platform:'browser',target:['chrome90'],minify:true,treeShaking:true,legalComments:'none',outfile:path.join(dest,'app.js')});
+const high=path.join(dest,'models/lyra-studio.glb');
+if(statSync(high).size<10000000)throw Error('Missing detailed GLB');
+console.log('Android offline assets ready, studio GLB:',statSync(high).size);
