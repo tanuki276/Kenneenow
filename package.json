@@ -1,0 +1,12 @@
+{
+  "name": "kenneenow-astral-archive",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Original fantasy-anime GLB character gallery",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
