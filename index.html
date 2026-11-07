@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0c1223" />
+  <meta name="description" content="オリジナルファンタジーキャラクターの3D GLBギャラリー。自由に回転・拡大・ダウンロード。" />
+  <title>ASTRAL ARCHIVE — キャラクター3Dギャラリー</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="ASTRAL ARCHIVE トップへ">
+        <span class="brand-emblem">✧</span><span class="brand-name">ASTRAL <b>ARCHIVE</b></span>
+      </a>
+      <div class="nav-center"><span class="pulse"></span> ORIGINAL CHARACTER COLLECTION <span class="nav-line"></span> 3D SHOWCASE</div>
+      <div class="nav-end"><span class="live-dot"></span> GALLERY <span id="counter">01 / 01</span></div>
+    </header>
+
+    <main class="main-layout">
+      <section class="story-panel" aria-labelledby="character-name">
+        <div class="overline"><span class="long-line"></span> CHARACTER FILE <span id="record-number">NO. 001</span></div>
+        <div class="story-content">
+          <div class="rarity" id="rarity" aria-label="星5">✦ ✦ ✦ ✦ ✦</div>
+          <div class="small-kanji">星を紡ぐ、ひとりの旅人。</div>
+          <h1 id="character-name">LYRA<span class="name-period">.</span></h1>
+          <div class="character-jp"><span class="star-mini">✧</span> <span id="character-title">星詠みの魔導士</span></div>
+          <p class="english-sub" id="character-subtitle">THE ASTRAL WEAVER</p>
+          <div class="separator"><span>✦</span></div>
+          <blockquote id="character-quote">星が囁く夜に、まだ知らない物語が始まる。</blockquote>
+          <p class="description" id="character-description">夜空と古代の星図を愛する、旅する魔導士。</p>
+          <div class="facts">
+            <div><span class="fact-label">ATTRIBUTE</span><strong id="character-element">星晶 / ASTRAL</strong></div>
+            <div><span class="fact-label">ORIGIN</span><strong id="character-region">星渡りの書庫</strong></div>
+          </div>
+        </div>
+        <div class="story-footer">
+          <a id="download-link" href="/models/lyra.glb" download="lyra-astral-weaver.glb" class="download-btn"><span class="download-symbol">↓</span><span>GLB MODEL をダウンロード<small>3D DATA · GLTF 2.0</small></span><span class="download-arrow">↗</span></a>
+          <span class="disclaimer">ORIGINAL DESIGN · NOT AN OFFICIAL GAME ASSET</span>
+        </div>
+      </section>
+
+      <section class="viewer-panel" aria-label="3Dモデルビューアー">
+        <div class="viewer-atmosphere"></div><div class="radiant-ring"></div><div class="radiant-ring ring-two"></div>
+        <div class="viewer-header"><div><span class="viewer-indicator"></span> INTERACTIVE MODEL <span class="viewer-caption">/ CHARACTER DISPLAY</span></div><span class="viewer-code">FIG. <span id="figure-number">001</span></span></div>
+        <canvas id="scene" aria-label="キャラクター3Dモデル。ドラッグで回転、スクロールで拡大縮小"></canvas>
+        <div class="loading-overlay" id="loading"><div class="loading-glyph">✧</div><span id="loading-text">星の記録を読み込み中...</span><span class="loader-bar"><i></i></span></div>
+        <div class="orbit-text orbit-top">CELESTIAL STUDY / 001</div>
+        <div class="viewer-bottom">
+          <div class="control-note"><span class="mouse-icon">↔</span> ドラッグで回転 <span class="note-divider">/</span> スクロールで拡大</div>
+          <div class="controls"><button type="button" id="reset-view" title="正面に戻す" aria-label="正面に戻す">⟲</button><button type="button" id="toggle-rotate" title="自動回転を切り替え" aria-label="自動回転を切り替え">◌</button><button type="button" id="capture" title="画像として保存" aria-label="スクリーンショットを保存">▣</button></div>
+        </div>
+      </section>
+
+      <aside class="selection-panel" aria-labelledby="selection-heading">
+        <div class="selection-top"><span>THE COLLECTION</span><h2 id="selection-heading">キャラクター選択<span class="selection-star"> ✦</span></h2><p>見たいキャラクターを選択してください。</p></div>
+        <div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="キャラクターを検索..." aria-label="キャラクター検索" /></div>
+        <div class="collection-head"><span>ALL CHARACTERS</span><span id="collection-count">01</span></div>
+        <div id="character-list" class="character-list" role="listbox" aria-label="キャラクター一覧"></div>
+        <button type="button" id="import-glb" class="import-card"><span class="plus">＋</span><span><strong>GLB ファイルを開く</strong><small>手元のモデルをプレビュー</small></span><span class="import-arrow">↗</span></button>
+        <input type="file" id="file-input" accept=".glb,model/gltf-binary" hidden />
+        <div class="selection-foot"><div class="thin-rule"></div><div class="next-heading">MORE STORIES TO COME <span>✧</span></div><p>新しいキャラクターを追加すると、ここに自動で表示されます。</p><div class="mini-stars">✦ &nbsp; · &nbsp; ✦ &nbsp; · &nbsp; ✦</div></div>
+      </aside>
+    </main>
+    <footer class="bottom-bar"><span>© ASTRAL ARCHIVE / ORIGINAL CHARACTER SERIES</span><span>DESIGNED FOR THE STARS <span class="footer-star">✧</span></span><span>BUILT WITH THREE.JS & GLB</span></footer>
+  </div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
