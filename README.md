@@ -1,24 +1,50 @@
 # ASTRAL ARCHIVE — Kenneenow
 
-原神などのファンタジーアニメRPGの雰囲気を参考にした、**完全オリジナル**の3Dキャラクターギャラリーです。既存ゲームの公式3Dアセットやキャラクターは使用していません。
+幻想的なアニメRPGの世界観を参考にした、**オリジナルの3DキャラクターGLBギャラリー**です。既存ゲームのキャラクターや公式3Dアセットは使用していません。
 
-## 初期キャラクター
-**LYRA / リラ — 星詠みの魔導士**。GLB / glTF 2.0、全身約25,000三角形、非リグ・静止ポーズ。3D回転、拡大縮小、自動回転、スクリーンショット、GLBダウンロードに対応。
+## 第1弾のキャラクター
+**LYRA / リラ — 星詠みの魔導士**。青紫の衣装、群青のロングヘア、星晶石の装飾を備えたオリジナルの全身3Dモデルです。glTF 2.0形式のGLBとして生成します。約25,256三角形、172メッシュ（現時点では非リグ、アニメーションなし）。
 
-## 次のキャラクターの追加
-1. `public/models/next.glb` に新しいモデルを置きます。
-2. `characters.json` の `characters` に新しい項目を登録し、`model` を `/models/next.glb` に設定します。
-3. GitHubにpushするとVercelがデプロイし、選択画面に自動反映します。
+サイトには、ドラッグで3D回転、ホイールでズーム、自動回転、正面リセット、PNG撮影、GLBダウンロード、GLBローカルファイルの一時プレビュー機能があります。
 
-`characters.json` の項目例:
+## 新しいキャラクターを追加する
+
+1. `public/models/your-character.glb` にGLBを追加します（フォルダがなければ作成）。
+2. `characters.json` の `characters` 配列に、以下のようなキャラクター情報を追加します。
+3. GitHubへpushするとVercelで再デプロイされ、キャラクター一覧から選択できるようになります。
 
 ```json
-{"id":"nova","name":"NOVA","nameJa":"ノヴァ","title":"星の旅人","subtitle":"STAR TRAVELER","quote":"旅は続く。","description":"キャラの説明","element":"ASTRAL","region":"星の国","rarity":5,"model":"/models/next.glb","fileName":"next.glb","tag":"ORIGINAL · 002"}
+{
+  "id": "nova",
+  "name": "NOVA",
+  "nameJa": "ノヴァ",
+  "title": "星の旅人",
+  "subtitle": "STAR TRAVELER",
+  "quote": "旅は続く。",
+  "description": "キャラクターの説明",
+  "element": "ASTRAL",
+  "region": "星の国",
+  "rarity": 5,
+  "model": "/models/your-character.glb",
+  "fileName": "your-character.glb",
+  "tag": "ORIGINAL · 002"
+}
 ```
 
-## 技術
-ビルド: Node.js 20以上、`npm run build`。静的サイト、Three.jsビューアー（CDN import map）、glTF 2.0 GLB。ソースは `scripts/source-bundle.br.b64`（Brotli + base64）に同梱し、`scripts/build.mjs` がビルド時に復元・生成します。初期GLBはオリジナルのパラメトリックメッシュから毎回生成され、モデル自体は`dist/models/lyra.glb`に出力されます。
+### ファイルの役割
 
-手元のGLBファイルをサイトに一時読み込みすることもできます（ブラウザだけで動作し、サーバーには送信しません）。
+- `index.html`: キャラクターギャラリーの画面
+- `styles.css`: レスポンシブデザイン
+- `app.js`: Three.js のGLB表示、モデル選択、ダウンロード、インポート
+- `characters.json`: キャラクター一覧。追加すると画面に自動反映
+- `scripts/generate.mjs`: 第1弾のオリジナルGLBを3D形状から自動生成
+- `scripts/build.mjs`: モデルを生成し、WebファイルとGLBを `dist/` に配置
+- `vercel.json`: Vercel公開設定
 
-> 非公式のファンスタイル参考作品であり、特定ゲームとは無関係です。
+## ビルド
+
+Node.js 20以上を用意し、`npm run build` を実行してください。追加のnpmパッケージは不要です。完成したサイトは `dist/` に生成され、任意の静的ホスティングで公開できます。
+
+Three.js はブラウザ側で jsDelivr CDN を読み込みます。GLBの自動生成と配信は自分のプロジェクト内で完結します。
+
+> 本作品は非公式のオリジナル作品で、特定のゲーム運営会社とは関係ありません。
